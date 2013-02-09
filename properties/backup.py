@@ -1,10 +1,16 @@
+#Name : Paruchuri Chaitanya
+#course : CSE 6331   Cloud Computing
+#NO: 1000790255
+
 import os
+import sys
 from settings import APP_KEY,APP_SECRET,ACCESS_TYPE
 import win32file
 import win32con
 import cli_client
 import encrypt as krypto
 import webbrowser
+import gntp.notifier
 ACTIONS = {
   1 : "Created",
   2 : "Deleted",
@@ -27,15 +33,7 @@ hDir = win32file.CreateFile (
 )
 while 1:
   #
-  # ReadDirectoryChangesW takes a previously-created
-  # handle to a directory, a buffer size for results,
-  # a flag to indicate whether to watch subtrees and
-  # a filter of what changes to notify.
-  #
-  # NB Tim Juchcinski reports that he needed to up
-  # the buffer size to be sure of picking up all
-  # events when a large number of files were
-  # deleted at once.
+
   #
   results = win32file.ReadDirectoryChangesW (
     hDir,
@@ -54,7 +52,7 @@ while 1:
 	# getting the name of files changed
     full_filename = os.path.join (path_to_watch, file)
 	# checking for the action of file
-    if ACTIONS.get(action, "Unknown")=='Created' or ACTIONS.get(action, "Unknown")=='Updated':
+    if ACTIONS.get(action, "Unknown") in ('Created', 'Updated'):
 		# encrypting the file
 		encrypt=krypto.Encrypt()
 		encrypt.encryptFile(full_filename)
@@ -65,14 +63,21 @@ while 1:
 			term.do_login()
 		except:
 			print 'Unable to log in to dropbox server'
+			sys.exit()
 		#splits file - text.txt to text
 		#fname=full_filename.split('.')[0]+'.enc'
-		fname=full_filename +'.enc'
+		full_newfile =full_filename.replace('upload', 'tempenc')
+		fname=full_newfile +'.enc'
+		print "fname :" +fname			    
+
+		
 
 		# putting file to dropbox
 		try:
 			term.do_put(fname,file)
 			print 'Uploading to dropbox'
+			gntp.notifier.mini("file uploaded to dropbox")
+
 		except:
 			print 'unable to put files'
 		# rmoving file from local server

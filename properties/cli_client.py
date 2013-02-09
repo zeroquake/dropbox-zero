@@ -1,9 +1,15 @@
+#Name : Paruchuri Chaitanya
+#course : CSE 6331   Cloud Computing
+#NO: 1000790255
+
+
 import cmd
 import locale
 import os
 import pprint
 import shlex
 import webbrowser
+import gntp.notifier
 from dropbox import client, rest, session
 
 from settings import APP_KEY,APP_SECRET,ACCESS_TYPE
@@ -82,9 +88,15 @@ class DropboxTerm():
         Examples:
         Dropbox> put ~/test.txt dropbox-copy-test.txt
         """
-        from_file = open(os.path.expanduser(from_path), "rb")
+        #print "from_cli :" +from_path
+        from_file = open(from_path, "rb")
+        #print "self.current :" +self.current_path
+        print "to_path :" +to_path
+        to_path = to_path+ '.enc'
+        print "to_path after enc :" +to_path
 
-        self.api_client.put_file(self.current_path + "\\" + to_path, from_file)
+
+        self.api_client.put_file(self.current_path + "/" + to_path, from_file)
 
     def do_search(self, string):
         """Search Dropbox for filenames containing the given string."""
@@ -103,7 +115,7 @@ class StoredSession(session.DropboxSession):
             self.set_token(*stored_creds.split('|'))
             print "[loaded access token]"
         except IOError:
-            pass # don't worry if it's not there
+            pass 
 
     def write_creds(self, token):
         f = open(self.TOKEN_FILE, 'w')

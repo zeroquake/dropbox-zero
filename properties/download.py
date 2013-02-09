@@ -1,9 +1,17 @@
+#Name : Paruchuri Chaitanya
+#course : CSE 6331   Cloud Computing
+#NO: 1000790255
+
+
+
 import cli_client
 import os
 import cmd
 import locale
 import pprint
 import shlex
+import gntp.notifier
+
 import encrypt as krypto
 from settings import APP_KEY,APP_SECRET,ACCESS_TYPE
 print 'Getting the files from dropbox server'
@@ -19,7 +27,9 @@ except:
 #except:
 	#print 'search error'
 # getting name of file to be downloaded
-filedown=raw_input('enter file name to be downloaded')
+gntp.notifier.mini("Enter file Name in console")
+
+filedown=raw_input('enter file name to be downloaded :')
 # downloading the file
 try:
 	term.do_get(filedown,'..\\download\\'+filedown)
@@ -30,7 +40,9 @@ encrypt=krypto.Encrypt()
 try:
 	encrypt.decryptFile('..\\download\\'+filedown)
 	print 'Decrypting and Saving File'
-	print os.listdir('..\\download')
+	gntp.notifier.mini("decrypted and saved")
+
+	#print os.listdir('..\\download')
        
 	print filedown
     
