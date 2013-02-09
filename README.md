@@ -18,3 +18,6 @@ cli_client
 
 setting 
    config settings 
+   
+download
+    download the file 
