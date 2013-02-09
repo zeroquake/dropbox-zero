@@ -65,7 +65,10 @@ while 1:
 			term.do_login()
 		except:
 			print 'Unable to log in to dropbox server'
-		fname=full_filename.split('.')[0]+'.enc'
+		#splits file - text.txt to text
+		#fname=full_filename.split('.')[0]+'.enc'
+		fname=full_filename +'.enc'
+
 		# putting file to dropbox
 		try:
 			term.do_put(fname,file)

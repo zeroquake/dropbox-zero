@@ -71,7 +71,7 @@ class DropboxTerm():
         """
         to_file = open(os.path.expanduser(to_path), "wb")
 
-        f, metadata = self.api_client.get_file_and_metadata(self.current_path + "\\" + from_path)
+        f, metadata = self.api_client.get_file_and_metadata(self.current_path + "/" + from_path)
         print 'Metadata:', metadata
         to_file.write(f.read())
 
